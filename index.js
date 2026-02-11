@@ -1,54 +1,43 @@
-// index.js - Backend simple pour Vichandy Studio IA
-// Reçoit un texte, appelle Gemini API et renvoie la chanson générée
+// index.js
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import {TextGenerationClient, TextPrompt} from "@google/generative-ai";
 
-const express = require("express");
-const bodyParser = require("body-parser");
-const fetch = require("node-fetch"); // pour appeler l'API Gemini
-const cors = require("cors");
+dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
-
-// Middlewares
-app.use(bodyParser.json());
 app.use(cors());
+app.use(express.json());
 
-// Route test simple
-app.get("/", (req, res) => {
-  res.send("Vichandy Backend en ligne ✅");
+// Définir le port
+const PORT = process.env.PORT || 10000;
+
+// Créer le client Gemini
+const client = new TextGenerationClient({
+  apiKey: process.env.GEMINI_API_KEY
 });
 
-// Route pour générer la chanson
-app.post("/generate-song", async (req, res) => {
-  const { text } = req.body;
-
-  if (!text) {
-    return res.status(400).json({ error: "Texte requis" });
-  }
-
+// Endpoint de test pour générer de la musique / texte
+app.post("/generate", async (req, res) => {
   try {
-    const response = await fetch("https://api.generativeai.google/v1beta2/models/gemini-3-pro:generateText", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.GEMINI_API_KEY}`
-      },
-      body: JSON.stringify({
-        prompt: `Génère une chanson complète avec paroles, voix IA et instrumental à partir de ce texte : ${text}`,
-        max_output_tokens: 1000
-      })
+    const {prompt} = req.body;
+    if (!prompt) return res.status(400).json({error: "prompt manquant"});
+
+    const response = await client.generateText({
+      model: "gemini-text-1",
+      prompt: new TextPrompt({text: prompt}),
+      temperature: 0.7,
     });
 
-    const data = await response.json();
-
-    // Renvoie la réponse brute pour l'instant
-    res.json({ song: data });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Erreur serveur" });
+    res.json({result: response.candidates[0].output});
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({error: "Erreur serveur"});
   }
 });
 
-app.listen(port, () => {
-  console.log(`Backend Vichandy en ligne sur le port ${port}`);
+// Message pour confirmer que le backend est en ligne
+app.listen(PORT, () => {
+  console.log(`Backend Vichandy en ligne sur le port ${PORT}`);
 });
