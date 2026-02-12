@@ -1,4 +1,3 @@
-// index.js
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -23,7 +22,8 @@ app.post("/generate", async (req, res) => {
       return res.status(400).json({ error: "Prompt manquant" });
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    // Modèle compatible
+    const model = genAI.getGenerativeModel({ model: "text-bison-001" });
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
@@ -33,7 +33,7 @@ app.post("/generate", async (req, res) => {
 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Erreur lors de la génération du texte" });
+    res.status(500).json({ error: error.message || "Erreur lors de la génération du texte" });
   }
 });
 
