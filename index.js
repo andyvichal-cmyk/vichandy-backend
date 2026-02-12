@@ -2,9 +2,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import pkg from "@google/generative-ai";
-
-const { TextGenerationClient, TextPrompt } = pkg;
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 dotenv.config();
 
@@ -12,14 +10,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Crée le client Gemini avec ta clé API depuis Render Environment Variables
-const client = new TextGenerationClient({
-  apiKey: process.env.GEMINI_API_KEY
-});
-
 const PORT = process.env.PORT || 10000;
 
-// Endpoint pour générer des chansons
+// Initialisation Gemini
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
 app.post("/generate", async (req, res) => {
   try {
     const { prompt } = req.body;
@@ -28,16 +23,16 @@ app.post("/generate", async (req, res) => {
       return res.status(400).json({ error: "Prompt manquant" });
     }
 
-    const response = await client.generateText({
-      model: "text-bison-001",
-      prompt: new TextPrompt({ text: prompt }),
-      temperature: 0.7,
-      maxOutputTokens: 500
-    });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    res.json({ result: response.candidates[0].content });
-  } catch (err) {
-    console.error(err);
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
+
+    res.json({ result: text });
+
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Erreur lors de la génération du texte" });
   }
 });
