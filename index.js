@@ -11,7 +11,6 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 10000;
 
-// Initialisation Gemini
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 app.post("/generate", async (req, res) => {
@@ -22,8 +21,9 @@ app.post("/generate", async (req, res) => {
       return res.status(400).json({ error: "Prompt manquant" });
     }
 
-    // Modèle compatible
-    const model = genAI.getGenerativeModel({ model: "text-bison-001" });
+    const model = genAI.getGenerativeModel({
+      model: "models/gemini-1.5-flash-latest"
+    });
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
@@ -32,8 +32,8 @@ app.post("/generate", async (req, res) => {
     res.json({ result: text });
 
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message || "Erreur lors de la génération du texte" });
+    console.error("ERREUR GEMINI :", error);
+    res.status(500).json({ error: error.message });
   }
 });
 
