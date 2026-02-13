@@ -11,8 +11,27 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 10000;
 
+// Initialisation Gemini
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
+// Endpoint racine pour vérifier que le backend fonctionne
+app.get("/", (req, res) => {
+  res.send("Backend Vichandy en ligne ✅");
+});
+
+// Endpoint pour lister tous les modèles disponibles dans ton projet
+app.get("/list-models", async (req, res) => {
+  try {
+    const models = await genAI.listModels();
+    res.json(models);
+  } catch (error) {
+    console.error("ERREUR GEMINI :", error);
+    res.status(500).json({ error: error.toString() });
+  }
+});
+
+// Endpoint pour générer du texte/chansons à partir d'un prompt
+// ⚠️ Remplace "NOM_DU_MODELE_VALIDE" par un modèle que tu trouves dans /list-models
 app.post("/generate", async (req, res) => {
   try {
     const { prompt } = req.body;
@@ -22,7 +41,7 @@ app.post("/generate", async (req, res) => {
     }
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash"
+      model: "NOM_DU_MODELE_VALIDE" // <-- Remplacer par un modèle valide de la liste
     });
 
     const result = await model.generateContent(prompt);
@@ -35,10 +54,6 @@ app.post("/generate", async (req, res) => {
     console.error("ERREUR GEMINI :", error);
     res.status(500).json({ error: error.message });
   }
-});
-
-app.get("/", (req, res) => {
-  res.send("Backend Vichandy en ligne ✅");
 });
 
 app.listen(PORT, () => {
