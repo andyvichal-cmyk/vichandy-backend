@@ -11,7 +11,6 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 10000;
 
-// Initialisation Gemini
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // Route test
@@ -19,27 +18,12 @@ app.get("/", (req, res) => {
   res.send("Backend Vichandy en ligne ✅");
 });
 
-// Route génération
-app.post("/generate", async (req, res) => {
+// 🔎 Route pour voir les modèles disponibles
+app.get("/list-models", async (req, res) => {
   try {
-    const { prompt } = req.body;
-
-    if (!prompt) {
-      return res.status(400).json({ error: "Prompt manquant" });
-    }
-
-    const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash-latest"
-    });
-
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-
-    res.json({ result: text });
-
+    const models = await genAI.listModels();
+    res.json(models);
   } catch (error) {
-    console.error("ERREUR GEMINI :", error);
     res.status(500).json({ error: error.message });
   }
 });
