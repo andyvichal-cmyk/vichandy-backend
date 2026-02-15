@@ -11,15 +11,15 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 10000;
 
-// Initialisation Gemini avec ta clé API Render
+// Initialisation Gemini
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// Endpoint test racine
+// Route test
 app.get("/", (req, res) => {
   res.send("Backend Vichandy en ligne ✅");
 });
 
-// Endpoint génération de texte
+// Route génération
 app.post("/generate", async (req, res) => {
   try {
     const { prompt } = req.body;
@@ -28,9 +28,8 @@ app.post("/generate", async (req, res) => {
       return res.status(400).json({ error: "Prompt manquant" });
     }
 
-    // ✅ Modèle Gemini moderne compatible v1beta
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash"
+      model: "gemini-1.5-flash-latest"
     });
 
     const result = await model.generateContent(prompt);
