@@ -1,30 +1,19 @@
-import express from "express";app.post("/generate", async (req, res) => {
-  try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models?key=${process.env.GEMINI_API_KEY}`
-    );
-
-    const data = await response.json();
-
-    res.json(data);
-
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 dotenv.config();
 
-const app = express();
+const app = express();   // ← APP EST DÉFINI ICI
+
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 10000;
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 app.get("/", (req, res) => {
-  res.send("Backend Vichandy en ligne ✅");
+  res.send("API Gemini opérationnelle 🚀");
 });
 
 app.post("/generate", async (req, res) => {
@@ -35,40 +24,24 @@ app.post("/generate", async (req, res) => {
       return res.status(400).json({ error: "Prompt manquant" });
     }
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                { text: prompt }
-              ]
-            }
-          ]
-        })
-      }
-    );
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-flash"
+    });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      return res.status(response.status).json(data);
-    }
-
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
 
     res.json({ result: text });
 
   } catch (error) {
+    console.error("ERREUR :", error);
     res.status(500).json({ error: error.message });
   }
 });
 
+const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
-  console.log(`Backend Vichandy en ligne sur le port ${PORT}`);
+  console.log(`Serveur lancé sur le port ${PORT}`);
 });
