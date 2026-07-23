@@ -1,16 +1,16 @@
 {
   "name": "vichandy-backend",
   "version": "1.0.0",
-  "description": "Backend for Vichandy Studio AI – music generation with Gemini",
-  "main": "index.js",
+  "description": "Backend pour VichAndy Studio IA - génération de contenu avec Gemini",
   "type": "module",
+  "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "express": "^4.19.2",
-    "@google/generative-ai": "^0.21.0",
+    "@google/genai": "^1.14.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5"
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0"
   }
 }
