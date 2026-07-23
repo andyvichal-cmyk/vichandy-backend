@@ -24,7 +24,10 @@ const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY
 });
 
-// Endpoint principal pour générer du contenu avec Gemini
+// Modèle Gemini utilisé par défaut
+const DEFAULT_MODEL = "gemini-3.5-flash";
+
+// Endpoint pour générer du contenu
 app.post("/generate", async (req, res) => {
   try {
     const { prompt, modelName } = req.body;
@@ -36,7 +39,7 @@ app.post("/generate", async (req, res) => {
       });
     }
 
-    const model = modelName || "gemini-2.5-flash";
+    const model = modelName || DEFAULT_MODEL;
 
     const response = await ai.models.generateContent({
       model: model,
@@ -45,6 +48,7 @@ app.post("/generate", async (req, res) => {
 
     res.json({
       success: true,
+      model: model,
       result: response.text
     });
 
@@ -62,12 +66,13 @@ app.post("/generate", async (req, res) => {
 app.get("/list-models", async (req, res) => {
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: DEFAULT_MODEL,
       contents: "Réponds uniquement par : Connexion Gemini réussie"
     });
 
     res.json({
       success: true,
+      model: DEFAULT_MODEL,
       message: response.text
     });
 
