@@ -1,5 +1,3 @@
-// index.js
-
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -41,7 +39,6 @@ async function generateWithRetry(prompt, model, maxAttempts = 3) {
       });
 
       return response;
-
     } catch (error) {
       lastError = error;
 
@@ -78,20 +75,11 @@ app.get("/test", (req, res) => {
   res.send(`
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VichAndy Studio IA</title>
-
   <style>
-
     * {
       box-sizing: border-box;
     }
@@ -100,16 +88,8 @@ app.get("/test", (req, res) => {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
       background:
-        radial-gradient(
-          circle at top left,
-          #302b63,
-          transparent 35%
-        ),
-        radial-gradient(
-          circle at bottom right,
-          #24243e,
-          transparent 35%
-        ),
+        radial-gradient(circle at top left, #302b63, transparent 35%),
+        radial-gradient(circle at bottom right, #24243e, transparent 35%),
         #09090f;
       color: white;
       min-height: 100vh;
@@ -143,14 +123,8 @@ app.get("/test", (req, res) => {
       align-items: center;
       justify-content: center;
       font-size: 28px;
-      background: linear-gradient(
-        135deg,
-        #ff8a00,
-        #e52e71
-      );
-      box-shadow:
-        0 10px 30px
-        rgba(229, 46, 113, 0.35);
+      background: linear-gradient(135deg, #ff8a00, #e52e71);
+      box-shadow: 0 10px 30px rgba(229, 46, 113, 0.35);
     }
 
     .brand h1 {
@@ -178,20 +152,11 @@ app.get("/test", (req, res) => {
     }
 
     .hero h2 {
-      font-size: clamp(
-        30px,
-        5vw,
-        58px
-      );
+      font-size: clamp(30px, 5vw, 58px);
       line-height: 1.1;
       margin: 0 auto 18px;
       max-width: 800px;
-      background: linear-gradient(
-        90deg,
-        #ffffff,
-        #ffb86c,
-        #ff6b9d
-      );
+      background: linear-gradient(90deg, #ffffff, #ffb86c, #ff6b9d);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -210,9 +175,7 @@ app.get("/test", (req, res) => {
       backdrop-filter: blur(20px);
       border-radius: 25px;
       padding: 28px;
-      box-shadow:
-        0 20px 70px
-        rgba(0,0,0,0.3);
+      box-shadow: 0 20px 70px rgba(0,0,0,0.3);
     }
 
     .section-title {
@@ -273,14 +236,8 @@ app.get("/test", (req, res) => {
       font-weight: bold;
       color: white;
       cursor: pointer;
-      background: linear-gradient(
-        90deg,
-        #ff8a00,
-        #e52e71
-      );
-      transition:
-        transform 0.2s,
-        opacity 0.2s;
+      background: linear-gradient(90deg, #ff8a00, #e52e71);
+      transition: transform 0.2s, opacity 0.2s;
     }
 
     .generate-button:hover {
@@ -369,369 +326,149 @@ app.get("/test", (req, res) => {
     }
 
     @media (max-width: 750px) {
-
-      .controls {
-        grid-template-columns: 1fr;
-      }
-
-      .features {
-        grid-template-columns: 1fr;
-      }
-
-      .header {
-        align-items: flex-start;
-      }
-
-      .badge {
-        display: none;
-      }
-
-      .creator {
-        padding: 20px;
-      }
-
+      .controls { grid-template-columns: 1fr; }
+      .features { grid-template-columns: 1fr; }
+      .header { align-items: flex-start; }
+      .badge { display: none; }
+      .creator { padding: 20px; }
     }
-
   </style>
-
 </head>
-
 <body>
-
   <div class="app">
-
     <header class="header">
-
       <div class="brand">
-
-        <div class="logo">
-          🎵
-        </div>
-
+        <div class="logo">🎵</div>
         <div>
-
-          <h1>
-            VichAndy Studio
-          </h1>
-
-          <p>
-            Imagine. Create. Inspire.
-          </p>
-
+          <h1>VichAndy Studio</h1>
+          <p>Imagine. Create. Inspire.</p>
         </div>
-
       </div>
-
-      <div class="badge">
-        ✨ Powered by AI
-      </div>
-
+      <div class="badge">✨ Powered by AI</div>
     </header>
 
     <section class="hero">
-
-      <h2>
-        Transforme tes idées en musique.
-      </h2>
-
+      <h2>Transforme tes idées en musique.</h2>
       <p>
         Décris simplement la chanson que tu imagines.
         VichAndy Studio utilise l'intelligence artificielle
         pour donner vie à ta vision créative.
       </p>
-
     </section>
 
     <main class="creator">
-
-      <div class="section-title">
-        🎼 Décris la chanson que tu veux créer
-      </div>
-
-      <textarea
-        id="idea"
-        placeholder="Exemple : Je veux une chanson gospel sur la victoire après une période difficile. Je veux que la chanson soit puissante, émouvante et pleine d'espoir..."
-      ></textarea>
+      <div class="section-title">🎼 Décris la chanson que tu veux créer</div>
+      <textarea id="idea" placeholder="Exemple : Je veux une chanson gospel sur la victoire après une période difficile..."></textarea>
 
       <div class="controls">
-
         <div class="control">
-
-          <label for="style">
-            🎶 Style musical
-          </label>
-
+          <label for="style">🎶 Style musical</label>
           <select id="style">
-
-            <option>
-              Gospel
-            </option>
-
-            <option>
-              Afrobeat
-            </option>
-
-            <option>
-              Afropop
-            </option>
-
-            <option>
-              R&B
-            </option>
-
-            <option>
-              Rap
-            </option>
-
-            <option>
-              Hip-Hop
-            </option>
-
-            <option>
-              Pop
-            </option>
-
-            <option>
-              Reggae
-            </option>
-
-            <option>
-              Worship
-            </option>
-
-            <option>
-              Jazz
-            </option>
-
+            <option>Gospel</option>
+            <option>Afrobeat</option>
+            <option>Afropop</option>
+            <option>R&B</option>
+            <option>Rap</option>
+            <option>Hip-Hop</option>
+            <option>Pop</option>
+            <option>Reggae</option>
+            <option>Worship</option>
+            <option>Jazz</option>
           </select>
-
         </div>
 
         <div class="control">
-
-          <label for="language">
-            🌍 Langue
-          </label>
-
+          <label for="language">🌍 Langue</label>
           <select id="language">
-
-            <option>
-              Français
-            </option>
-
-            <option>
-              English
-            </option>
-
-            <option>
-              Español
-            </option>
-
-            <option>
-              Português
-            </option>
-
+            <option>Français</option>
+            <option>English</option>
+            <option>Español</option>
+            <option>Português</option>
           </select>
-
         </div>
 
         <div class="control">
-
-          <label for="mood">
-            🔥 Ambiance
-          </label>
-
+          <label for="mood">🔥 Ambiance</label>
           <select id="mood">
-
-            <option>
-              Puissante
-            </option>
-
-            <option>
-              Émotionnelle
-            </option>
-
-            <option>
-              Joyeuse
-            </option>
-
-            <option>
-              Inspirante
-            </option>
-
-            <option>
-              Romantique
-            </option>
-
-            <option>
-              Sombre
-            </option>
-
-            <option>
-              Énergique
-            </option>
-
+            <option>Puissante</option>
+            <option>Émotionnelle</option>
+            <option>Joyeuse</option>
+            <option>Inspirante</option>
+            <option>Romantique</option>
+            <option>Sombre</option>
+            <option>Énergique</option>
           </select>
-
         </div>
-
       </div>
 
-      <button
-        class="generate-button"
-        id="generateButton"
-        onclick="generateSong()"
-      >
+      <button class="generate-button" id="generateButton" onclick="generateSong()">
         ✨ CRÉER MA CHANSON
       </button>
 
-      <div
-        class="result-container"
-        id="resultContainer"
-      >
-
+      <div class="result-container" id="resultContainer">
         <div class="result-header">
-
-          <h3>
-            🎵 Ta création
-          </h3>
-
-          <button
-            class="copy-button"
-            onclick="copyResult()"
-          >
-            📋 Copier
-          </button>
-
+          <h3>🎵 Ta création</h3>
+          <button class="copy-button" onclick="copyResult()">📋 Copier</button>
         </div>
-
-        <div
-          class="result"
-          id="result"
-        ></div>
-
+        <div class="result" id="result"></div>
       </div>
-
     </main>
 
     <section class="features">
-
       <div class="feature">
-
-        <strong>
-          💡 Ton idée
-        </strong>
-
-        <span>
-          Commence avec une simple inspiration.
-        </span>
-
+        <strong>💡 Ton idée</strong>
+        <span>Commence avec une simple inspiration.</span>
       </div>
-
       <div class="feature">
-
-        <strong>
-          🤖 Intelligence artificielle
-        </strong>
-
-        <span>
-          L'IA développe ta vision créative.
-        </span>
-
+        <strong>🤖 Intelligence artificielle</strong>
+        <span>L'IA développe ta vision créative.</span>
       </div>
-
       <div class="feature">
-
-        <strong>
-          🎵 Ta création
-        </strong>
-
-        <span>
-          Découvre une chanson créée à partir de ton idée.
-        </span>
-
+        <strong>🎵 Ta création</strong>
+        <span>Découvre une chanson créée à partir de ton idée.</span>
       </div>
-
     </section>
 
     <footer>
       © 2026 VichAndy Studio — Imagine. Create. Inspire.
     </footer>
-
   </div>
 
   <script>
-
     async function generateSong() {
-
-      const idea =
-        document.getElementById("idea")
-          .value
-          .trim();
-
-      const style =
-        document.getElementById("style")
-          .value;
-
-      const language =
-        document.getElementById("language")
-          .value;
-
-      const mood =
-        document.getElementById("mood")
-          .value;
-
-      const button =
-        document.getElementById(
-          "generateButton"
-        );
-
-      const resultContainer =
-        document.getElementById(
-          "resultContainer"
-        );
-
-      const result =
-        document.getElementById(
-          "result"
-        );
+      const idea = document.getElementById("idea").value.trim();
+      const style = document.getElementById("style").value;
+      const language = document.getElementById("language").value;
+      const mood = document.getElementById("mood").value;
+      const button = document.getElementById("generateButton");
+      const resultContainer = document.getElementById("resultContainer");
+      const result = document.getElementById("result");
 
       if (!idea) {
-
-        alert(
-          "Décris d'abord la chanson que tu veux créer."
-        );
-
+        alert("Décris d'abord la chanson que tu veux créer.");
         return;
-
       }
 
-      const prompt = `
+      const prompt = \`
+Tu es un auteur-compositeur professionnel et un directeur artistique musical.
 
-Tu es un auteur-compositeur professionnel
-et un directeur artistique musical.
-
-Crée une chanson originale complète
-à partir des informations suivantes :
+Crée une chanson originale complète à partir des informations suivantes :
 
 IDÉE DE L'UTILISATEUR :
-${idea}
+\${idea}
 
 STYLE MUSICAL :
-${style}
+\${style}
 
 LANGUE :
-${language}
+\${language}
 
 AMBIANCE :
-${mood}
+\${mood}
 
-La chanson doit être originale,
-cohérente, émotionnelle et adaptée
-au style choisi.
+La chanson doit être originale, cohérente, émotionnelle et adaptée au style choisi.
 
 Structure obligatoirement la chanson avec :
-
 1. TITRE
 2. STYLE MUSICAL
 3. INTRODUCTION
@@ -743,105 +480,52 @@ Structure obligatoirement la chanson avec :
 9. REFRAIN FINAL
 10. OUTRO
 
-Ajoute également des indications
-entre parenthèses pour décrire
-l'énergie musicale, les instruments
-et l'évolution de la chanson.
+Ajoute également des indications entre parenthèses pour décrire l'énergie musicale, les instruments et l'évolution de la chanson.
 
-Réponds uniquement avec
-la création musicale complète.
-
-`;
+Réponds uniquement avec la création musicale complète.
+\`;
 
       button.disabled = true;
-
-      button.innerText =
-        "⏳ CRÉATION EN COURS...";
-
-      resultContainer.style.display =
-        "block";
-
-      result.innerHTML = `
+      button.innerText = "⏳ CRÉATION EN COURS...";
+      resultContainer.style.display = "block";
+      result.innerHTML = \`
         <div class="loading">
-          🎼 VichAndy Studio imagine
-          ta création...
-          <br><br>
-          ✨ Composition des paroles
-          en cours...
+          🎼 VichAndy Studio imagine ta création...<br><br>
+          ✨ Composition des paroles en cours...
         </div>
-      `;
+      \`;
 
       try {
+        const response = await fetch("/generate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ prompt: prompt })
+        });
 
-        const response =
-          await fetch(
-            "/generate",
-            {
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
-
-              body: JSON.stringify({
-                prompt: prompt
-              })
-            }
-          );
-
-        const data =
-          await response.json();
+        const data = await response.json();
 
         if (data.success) {
-
-          result.innerText =
-            data.result;
-
+          result.innerText = data.result;
         } else {
-
-          result.innerText =
-            "Erreur : "
-            + data.error;
-
+          result.innerText = "Erreur : " + data.error;
         }
-
       } catch (error) {
-
-        result.innerText =
-          "Erreur de connexion au serveur : "
-          + error.message;
-
+        result.innerText = "Erreur de connexion au serveur : " + error.message;
       }
 
       button.disabled = false;
-
-      button.innerText =
-        "✨ CRÉER MA CHANSON";
-
+      button.innerText = "✨ CRÉER MA CHANSON";
     }
 
     function copyResult() {
-
-      const text =
-        document.getElementById(
-          "result"
-        ).innerText;
-
-      navigator.clipboard.writeText(
-        text
-      );
-
-      alert(
-        "Création copiée avec succès !"
-      );
-
+      const text = document.getElementById("result").innerText;
+      navigator.clipboard.writeText(text);
+      alert("Création copiée avec succès !");
     }
-
   </script>
-
 </body>
-
 </html>
   `);
 });
@@ -851,62 +535,31 @@ la création musicale complète.
 ============================================================ */
 
 app.post("/generate", async (req, res) => {
-
   try {
-
-    const {
-      prompt,
-      modelName
-    } = req.body;
+    const { prompt, modelName } = req.body;
 
     if (!prompt) {
-
       return res.status(400).json({
-
         success: false,
-
         error: "Prompt manquant"
-
       });
-
     }
 
-    const model =
-      modelName || DEFAULT_MODEL;
-
-    const response =
-      await generateWithRetry(
-        prompt,
-        model
-      );
+    const model = modelName || DEFAULT_MODEL;
+    const response = await generateWithRetry(prompt, model);
 
     res.json({
-
       success: true,
-
       model: model,
-
       result: response.text
-
     });
-
   } catch (error) {
-
-    console.error(
-      "ERREUR GEMINI :",
-      error
-    );
-
+    console.error("ERREUR GEMINI :", error);
     res.status(500).json({
-
       success: false,
-
       error: error.message
-
     });
-
   }
-
 });
 
 /* ============================================================
@@ -914,45 +567,24 @@ app.post("/generate", async (req, res) => {
 ============================================================ */
 
 app.get("/list-models", async (req, res) => {
-
   try {
-
-    const response =
-      await generateWithRetry(
-
-        "Réponds uniquement par : Connexion Gemini réussie",
-
-        DEFAULT_MODEL
-
-      );
-
-    res.json({
-
-      success: true,
-
-      model: DEFAULT_MODEL,
-
-      message: response.text
-
-    });
-
-  } catch (error) {
-
-    console.error(
-      "ERREUR DE CONNEXION GEMINI :",
-      error
+    const response = await generateWithRetry(
+      "Réponds uniquement par : Connexion Gemini réussie",
+      DEFAULT_MODEL
     );
 
-    res.status(500).json({
-
-      success: false,
-
-      error: error.message
-
+    res.json({
+      success: true,
+      model: DEFAULT_MODEL,
+      message: response.text
     });
-
+  } catch (error) {
+    console.error("ERREUR DE CONNEXION GEMINI :", error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
   }
-
 });
 
 /* ============================================================
@@ -960,11 +592,7 @@ app.get("/list-models", async (req, res) => {
 ============================================================ */
 
 app.get("/", (req, res) => {
-
-  res.send(
-    "API Gemini opérationnelle 🚀"
-  );
-
+  res.send("API Gemini opérationnelle 🚀");
 });
 
 /* ============================================================
@@ -972,9 +600,6 @@ app.get("/", (req, res) => {
 ============================================================ */
 
 app.listen(PORT, () => {
-
-  console.log(
-    `Backend Vichandy en ligne sur le port ${PORT}`
-  );
-
+  console.log(`Backend Vichandy en ligne sur le port ${PORT}`);
 });
+
