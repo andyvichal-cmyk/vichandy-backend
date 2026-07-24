@@ -14,27 +14,23 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 10000;
 
-// Vérification de la présence de la clé API
 if (!process.env.GEMINI_API_KEY) {
   console.error("ERREUR : GEMINI_API_KEY est introuvable.");
 }
 
-// Initialisation du client Gemini
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY
 });
 
-// Modèle Gemini utilisé par défaut
-const DEFAULT_MODEL = "gemini-3.5-flash";
+// Modèle stable, rapide et économique
+const DEFAULT_MODEL = "gemini-3.5-flash-lite";
 
-// Fonction pour attendre avant une nouvelle tentative
 function wait(milliseconds) {
   return new Promise((resolve) => {
     setTimeout(resolve, milliseconds);
   });
 }
 
-// Fonction de génération avec plusieurs tentatives automatiques
 async function generateWithRetry(prompt, model, maxAttempts = 3) {
   let lastError;
 
@@ -75,7 +71,7 @@ async function generateWithRetry(prompt, model, maxAttempts = 3) {
   throw lastError;
 }
 
-// Interface web VichAndy Studio IA
+// Interface de test VichAndy Studio IA
 app.get("/test", (req, res) => {
   res.send(`
     <!DOCTYPE html>
@@ -195,7 +191,8 @@ app.get("/test", (req, res) => {
 
           button.disabled = true;
           button.innerText = "⏳ Génération en cours...";
-          result.innerHTML = '<div class="loading">Gemini est en train de créer votre chanson...</div>';
+          result.innerHTML =
+            '<div class="loading">Gemini est en train de créer votre chanson...</div>';
 
           try {
             const response = await fetch("/generate", {
@@ -230,7 +227,7 @@ app.get("/test", (req, res) => {
   `);
 });
 
-// Endpoint pour générer du contenu avec Gemini
+// Génération de contenu avec Gemini
 app.post("/generate", async (req, res) => {
   try {
     const { prompt, modelName } = req.body;
@@ -262,7 +259,7 @@ app.post("/generate", async (req, res) => {
   }
 });
 
-// Endpoint de test de connexion à Gemini
+// Test de connexion à Gemini
 app.get("/list-models", async (req, res) => {
   try {
     const response = await generateWithRetry(
