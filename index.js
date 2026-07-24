@@ -68,7 +68,7 @@ async function generateWithRetry(prompt, model, maxAttempts = 3) {
 }
 
 /* ============================================================
-   INTERFACE VICHANDY STUDIO IA
+   INTERFACE VICHANDY STUDIO IA (V2 - STUDIO PRO)
 ============================================================ */
 
 app.get("/test", (req, res) => {
@@ -78,7 +78,7 @@ app.get("/test", (req, res) => {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VichAndy Studio IA</title>
+  <title>VichAndy Studio IA - Pro</title>
   <style>
     * {
       box-sizing: border-box;
@@ -148,13 +148,13 @@ app.get("/test", (req, res) => {
 
     .hero {
       text-align: center;
-      padding: 35px 10px 40px;
+      padding: 20px 10px 30px;
     }
 
     .hero h2 {
-      font-size: clamp(30px, 5vw, 58px);
+      font-size: clamp(28px, 4.5vw, 52px);
       line-height: 1.1;
-      margin: 0 auto 18px;
+      margin: 0 auto 14px;
       max-width: 800px;
       background: linear-gradient(90deg, #ffffff, #ffb86c, #ff6b9d);
       -webkit-background-clip: text;
@@ -163,10 +163,10 @@ app.get("/test", (req, res) => {
 
     .hero p {
       color: #aaa;
-      font-size: 17px;
+      font-size: 16px;
       max-width: 650px;
       margin: auto;
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
     .creator {
@@ -179,18 +179,19 @@ app.get("/test", (req, res) => {
     }
 
     .section-title {
-      font-size: 20px;
-      margin-bottom: 18px;
+      font-size: 19px;
+      margin-bottom: 16px;
+      font-weight: bold;
     }
 
     textarea {
       width: 100%;
-      min-height: 150px;
+      min-height: 130px;
       resize: vertical;
       border: 1px solid rgba(255,255,255,0.15);
       border-radius: 16px;
-      padding: 18px;
-      font-size: 16px;
+      padding: 16px;
+      font-size: 15px;
       color: white;
       background: rgba(0,0,0,0.3);
       outline: none;
@@ -201,7 +202,7 @@ app.get("/test", (req, res) => {
       border-color: #ff7b8a;
     }
 
-    .controls {
+    .controls-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 15px;
@@ -217,12 +218,12 @@ app.get("/test", (req, res) => {
 
     select {
       width: 100%;
-      padding: 14px;
+      padding: 13px;
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.15);
       background: #171722;
       color: white;
-      font-size: 15px;
+      font-size: 14px;
       outline: none;
     }
 
@@ -325,8 +326,8 @@ app.get("/test", (req, res) => {
       font-size: 13px;
     }
 
-    @media (max-width: 750px) {
-      .controls { grid-template-columns: 1fr; }
+    @media (max-width: 850px) {
+      .controls-grid { grid-template-columns: 1fr; }
       .features { grid-template-columns: 1fr; }
       .header { align-items: flex-start; }
       .badge { display: none; }
@@ -344,36 +345,68 @@ app.get("/test", (req, res) => {
           <p>Imagine. Create. Inspire.</p>
         </div>
       </div>
-      <div class="badge">✨ Powered by AI</div>
+      <div class="badge">🎹 Studio de Production IA Pro</div>
     </header>
 
     <section class="hero">
-      <h2>Transforme tes idées en musique.</h2>
+      <h2>Direction Artistique & Composition Pro</h2>
       <p>
-        Décris simplement la chanson que tu imagines.
-        VichAndy Studio utilise l'intelligence artificielle
-        pour donner vie à ta vision créative.
+        Configure ton morceau dans les moindres détails : style, tempo, instruments et type de voix.
       </p>
     </section>
 
     <main class="creator">
-      <div class="section-title">🎼 Décris la chanson que tu veux créer</div>
-      <textarea id="idea" placeholder="Exemple : Je veux une chanson gospel sur la victoire après une période difficile..."></textarea>
+      <div class="section-title">💡 Thème ou histoire de la chanson</div>
+      <textarea id="idea" placeholder="Exemple : Une chanson de victoire et d'espoir après avoir surmonté les difficultés de la vie..."></textarea>
 
-      <div class="controls">
+      <div class="controls-grid">
         <div class="control">
-          <label for="style">🎶 Style musical</label>
+          <label for="style">🎶 Style Musical</label>
           <select id="style">
-            <option>Gospel</option>
-            <option>Afrobeat</option>
-            <option>Afropop</option>
-            <option>R&B</option>
-            <option>Rap</option>
-            <option>Hip-Hop</option>
-            <option>Pop</option>
-            <option>Reggae</option>
-            <option>Worship</option>
-            <option>Jazz</option>
+            <option>Gospel Modern</option>
+            <option>Afrobeat / Afropop</option>
+            <option>Amapiano</option>
+            <option>R&B Soul</option>
+            <option>Rap / Trap</option>
+            <option>Slam & Poésie</option>
+            <option>Reggae / Dancehall</option>
+            <option>Worship & Louange</option>
+            <option>Pop / Variété</option>
+            <option>Jazz / Blues</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="voice">🎤 Type de Voix & Chant</label>
+          <select id="voice">
+            <option>Voix Masculine Puissante</option>
+            <option>Voix Féminine Douce & Émotionnelle</option>
+            <option>Duo Masculin / Féminin</option>
+            <option>Chorale Gospel & Lead Solo</option>
+            <option>Voix Rap / Flow Rapide</option>
+            <option>Voix Grave & Warm</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="tempo">⏱️ Tempo & Dynamique (BPM)</label>
+          <select id="tempo">
+            <option>Lent / Ballade Émotionnelle (60-80 BPM)</option>
+            <option>Médium / Groove Posé (90-110 BPM)</option>
+            <option>Rapide / Énergique (115-130 BPM)</option>
+            <option>Très Rapide / Club & Afrobeat (135+ BPM)</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="instruments">🎸 Instrumentation Clé</label>
+          <select id="instruments">
+            <option>Piano Acoustique & Cordes Orchestrales</option>
+            <option>Cuivres Afrobeat & Percursions Lourd</option>
+            <option>Guitare Acoustique & Basse Round</option>
+            <option>Synthétiseurs & Drums Trap 808</option>
+            <option>Kora, Balafon & Percussions Traditionnelles</option>
+            <option>Guitare Électrique Solo & Orgue</option>
           </select>
         </div>
 
@@ -381,6 +414,7 @@ app.get("/test", (req, res) => {
           <label for="language">🌍 Langue</label>
           <select id="language">
             <option>Français</option>
+            <option>Français + Lingala / Fang (Mix)</option>
             <option>English</option>
             <option>Español</option>
             <option>Português</option>
@@ -388,27 +422,25 @@ app.get("/test", (req, res) => {
         </div>
 
         <div class="control">
-          <label for="mood">🔥 Ambiance</label>
+          <label for="mood">🔥 Ambiance & Émotion</label>
           <select id="mood">
-            <option>Puissante</option>
-            <option>Émotionnelle</option>
-            <option>Joyeuse</option>
-            <option>Inspirante</option>
-            <option>Romantique</option>
-            <option>Sombre</option>
-            <option>Énergique</option>
+            <option>Triomphante & Victorieuse</option>
+            <option>Mélancolique & Profonde</option>
+            <option>Festive & Dansante</option>
+            <option>Inspirante & Motivante</option>
+            <option>Romantique & Envoûtante</option>
           </select>
         </div>
       </div>
 
       <button class="generate-button" id="generateButton" onclick="generateSong()">
-        ✨ CRÉER MA CHANSON
+        ✨ PRODUIRE MA CHANSON & PROMPTS
       </button>
 
       <div class="result-container" id="resultContainer">
         <div class="result-header">
-          <h3>🎵 Ta création</h3>
-          <button class="copy-button" onclick="copyResult()">📋 Copier</button>
+          <h3>🎵 Direction Artistique & Paroles</h3>
+          <button class="copy-button" onclick="copyResult()">📋 Copier Tout</button>
         </div>
         <div class="result" id="result"></div>
       </div>
@@ -416,21 +448,21 @@ app.get("/test", (req, res) => {
 
     <section class="features">
       <div class="feature">
-        <strong>💡 Ton idée</strong>
-        <span>Commence avec une simple inspiration.</span>
+        <strong>🎼 Paroles Synchronisées</strong>
+        <span>Structure professionnelle pré-balisée ([Intro], [Chorus], [Bridge]).</span>
       </div>
       <div class="feature">
-        <strong>🤖 Intelligence artificielle</strong>
-        <span>L'IA développe ta vision créative.</span>
+        <strong>🎧 Direction d'Arrangement</strong>
+        <span>Indications d'instruments, de tempo et d'évolutions de la voix.</span>
       </div>
       <div class="feature">
-        <strong>🎵 Ta création</strong>
-        <span>Découvre une chanson créée à partir de ton idée.</span>
+        <strong>🚀 Prompt Suno / Udio prêt</strong>
+        <span>Balises techniques prêtes à être injectées pour générer la vraie musique.</span>
       </div>
     </section>
 
     <footer>
-      © 2026 VichAndy Studio — Imagine. Create. Inspire.
+      © 2026 VichAndy Studio — Direction Artistique & Production IA
     </footer>
   </div>
 
@@ -438,60 +470,67 @@ app.get("/test", (req, res) => {
     async function generateSong() {
       const idea = document.getElementById("idea").value.trim();
       const style = document.getElementById("style").value;
+      const voice = document.getElementById("voice").value;
+      const tempo = document.getElementById("tempo").value;
+      const instruments = document.getElementById("instruments").value;
       const language = document.getElementById("language").value;
       const mood = document.getElementById("mood").value;
+
       const button = document.getElementById("generateButton");
       const resultContainer = document.getElementById("resultContainer");
       const result = document.getElementById("result");
 
       if (!idea) {
-        alert("Décris d'abord la chanson que tu veux créer.");
+        alert("Décris d'abord le thème ou l'histoire de la chanson.");
         return;
       }
 
       const prompt = \`
-Tu es un auteur-compositeur professionnel et un directeur artistique musical.
+Tu es un directeur artistique musical de renom et un auteur-compositeur professionnel.
 
-Crée une chanson originale complète à partir des informations suivantes :
+Crée un projet musical complet et professionnel basé sur ces caractéristiques :
 
-IDÉE DE L'UTILISATEUR :
-\${idea}
+THÈME / HISTOIRE : \${idea}
+STYLE MUSICAL : \${style}
+TYPE DE VOIX : \${voice}
+TEMPO & DYNAMIQUE : \${tempo}
+INSTRUMENTS CLÉS : \${instruments}
+LANGUE : \${language}
+AMBIANCE : \${mood}
 
-STYLE MUSICAL :
-\${style}
+GÉNÈRE UNE RÉPONSE DANS LA STRUCTURE SUIVANTE EXACTE :
 
-LANGUE :
-\${language}
+---
+1. 📌 FICHE TECHNIQUE DU MORCEAU
+- Titre proposé :
+- Style & Sub-genres :
+- Tempo recommandé :
+- Ambiance sonore :
+- Configuration vocale :
 
-AMBIANCE :
-\${mood}
+2. 🚀 PROMPT OPTIMISÉ POUR IA MUSICALE (SUNO / UDIO)
+(Donne une ligne de tags synthétiques en anglais prête à copier-coller dans Suno ou Udio, ex: [Gospel, Male vocal, Piano, Orchestral, 75 bpm, Emotional, Powerful])
 
-La chanson doit être originale, cohérente, émotionnelle et adaptée au style choisi.
-
-Structure obligatoirement la chanson avec :
-1. TITRE
-2. STYLE MUSICAL
-3. INTRODUCTION
-4. COUPLET 1
-5. PRÉ-REFRAIN si nécessaire
-6. REFRAIN
-7. COUPLET 2
-8. PONT
-9. REFRAIN FINAL
-10. OUTRO
-
-Ajoute également des indications entre parenthèses pour décrire l'énergie musicale, les instruments et l'évolution de la chanson.
-
-Réponds uniquement avec la création musicale complète.
+3. 🎼 PAROLES COMPLÈTES ET ARRANGEMENTS
+Rédige les paroles complètes du morceau avec des balises de structure claires entre crochets :
+- [Intro] (avec annotations d'instruments entre parenthèses)
+- [Couplet 1]
+- [Pré-Refrain]
+- [Refrain] (Le moment fort)
+- [Couplet 2]
+- [Pont / Bridge] (L'apogée émotionnelle)
+- [Refrain Final]
+- [Outro]
+---
 \`;
 
       button.disabled = true;
-      button.innerText = "⏳ CRÉATION EN COURS...";
+      button.innerText = "⏳ PRODUCTION EN COURS...";
       resultContainer.style.display = "block";
       result.innerHTML = \`
         <div class="loading">
-          🎼 VichAndy Studio imagine ta création...<br><br>
-          ✨ Composition des paroles en cours...
+          🎼 VichAndy Studio orchestre ta création...<br><br>
+          ✨ Génération de la fiche technique, du prompt Suno/Udio et des paroles...
         </div>
       \`;
 
@@ -516,7 +555,7 @@ Réponds uniquement avec la création musicale complète.
       }
 
       button.disabled = false;
-      button.innerText = "✨ CRÉER MA CHANSON";
+      button.innerText = "✨ PRODUIRE MA CHANSON & PROMPTS";
     }
 
     function copyResult() {
@@ -602,4 +641,3 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Backend Vichandy en ligne sur le port ${PORT}`);
 });
-
