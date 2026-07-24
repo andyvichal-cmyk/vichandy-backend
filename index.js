@@ -60,7 +60,51 @@ async function generateWithRetry(prompt, model, maxAttempts = 3) {
 }
 
 /* ============================================================
-   INTERFACE VICHANDY STUDIO IA (V3 - STUDIO AUDIO PRO)
+   FONCTION HELPER : FONCTION DE CRÉATION AUDIO VIA SUNO API
+============================================================ */
+
+async function callSunoApi(tags, lyrics, title) {
+  const apiKey = process.env.SUNO_API_KEY;
+  if (!apiKey) {
+    console.warn("SUNO_API_KEY manquant. Génération audio ignorée.");
+    return null;
+  }
+
+  try {
+    // Exemple d'appel standard vers l'API Suno
+    const response = await fetch("https://api.sunoapi.org/api/v1/gateway/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        prompt: lyrics,
+        tags: tags,
+        title: title || "VichAndy Production",
+        make_instrumental: false,
+        wait_audio: true
+      })
+    });
+
+    const data = await response.json();
+    
+    // Extraction du lien MP3 retourné par l'API
+    if (data && data[0] && data[0].audio_url) {
+      return data[0].audio_url;
+    } else if (data && data.audio_url) {
+      return data.audio_url;
+    }
+
+    return null;
+  } catch (error) {
+    console.error("Erreur lors de l'appel à l'API Suno :", error);
+    return null;
+  }
+}
+
+/* ============================================================
+   INTERFACE VICHANDY STUDIO IA (V3 - FULL AUDIO PRO)
 ============================================================ */
 
 app.get("/test", (req, res) => {
@@ -170,6 +214,12 @@ app.get("/test", (req, res) => {
 
     audio { width: 100%; margin-top: 10px; outline: none; }
 
+    .download-btn {
+      display: inline-block; margin-top: 12px; padding: 10px 18px;
+      border-radius: 10px; background: #e52e71; color: white;
+      text-decoration: none; font-weight: bold; font-size: 14px;
+    }
+
     .result-header {
       display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 15px; gap: 10px;
@@ -217,7 +267,7 @@ app.get("/test", (req, res) => {
     <section class="hero">
       <h2>Composition & Production Audio Automatique</h2>
       <p>
-        Crée des paroles professionnelles et déclenche la génération de ta chanson audio.
+        Crée des paroles professionnelles et déclenche la génération de ta chanson audio HD.
       </p>
     </section>
 
@@ -291,7 +341,7 @@ app.get("/test", (req, res) => {
       </div>
 
       <button class="generate-button" id="generateButton" onclick="generateSong()">
-        ✨ PRODUIRE LA CHANSON ET GENERER L'AUDIO
+        ✨ PRODUIRE LA CHANSON ET GÉNÉRER L'AUDIO
       </button>
 
       <div class="result-container" id="resultContainer">
@@ -299,6 +349,9 @@ app.get("/test", (req, res) => {
         <div class="audio-player-box" id="audioBox" style="display: none;">
           <h4>🎧 Ta Chanson Audio (MP3)</h4>
           <audio id="audioPlayer" controls></audio>
+          <div>
+            <a id="downloadLink" class="download-btn" href="#" target="_blank" download="chanson_vichandy.mp3">⬇️ Télécharger le MP3</a>
+          </div>
         </div>
 
         <div class="result-header">
@@ -329,6 +382,7 @@ app.get("/test", (req, res) => {
       const result = document.getElementById("result");
       const audioBox = document.getElementById("audioBox");
       const audioPlayer = document.getElementById("audioPlayer");
+      const downloadLink = document.getElementById("downloadLink");
 
       if (!idea) {
         alert("Décris d'abord le thème ou l'histoire de la chanson.");
@@ -359,7 +413,7 @@ GÉNÈRE UNE RÉPONSE DANS LA STRUCTURE SUIVANTE EXACTE :
 - Configuration vocale :
 
 2. 🚀 PROMPT OPTIMISÉ POUR IA MUSICALE (SUNO / UDIO)
-[Inscris ici les tags techniques uniquement entre crochets]
+[Inscris ici les tags techniques uniquement entre crochets, ex: Gospel, Male lead, Piano, 72bpm]
 
 3. 🎼 PAROLES COMPLÈTES ET ARRANGEMENTS
 - [Intro]
@@ -374,12 +428,12 @@ GÉNÈRE UNE RÉPONSE DANS LA STRUCTURE SUIVANTE EXACTE :
 \`;
 
       button.disabled = true;
-      button.innerText = "⏳ PRODUCTION & CRÉATION AUDIO EN COURS...";
+      button.innerText = "⏳ PRODUCTION & GÉNÉRATION AUDIO EN COURS...";
       resultContainer.style.display = "block";
       audioBox.style.display = "none";
       result.innerHTML = \`
         <div class="loading">
-          🎼 VichAndy Studio orchestre la direction artistique et prépare la génération audio...
+          🎼 VichAndy Studio orchestre la création artistique et génère le fichier audio HD...
         </div>
       \`;
 
@@ -387,7 +441,7 @@ GÉNÈRE UNE RÉPONSE DANS LA STRUCTURE SUIVANTE EXACTE :
         const response = await fetch("/generate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt: prompt })
+          body: JSON.stringify({ prompt: prompt, generateAudio: true })
         });
 
         const data = await response.json();
@@ -395,9 +449,9 @@ GÉNÈRE UNE RÉPONSE DANS LA STRUCTURE SUIVANTE EXACTE :
         if (data.success) {
           result.innerText = data.result;
 
-          // Déclenchement facultatif de la route de génération d'audio si configurée
           if (data.audioUrl) {
             audioPlayer.src = data.audioUrl;
+            downloadLink.href = data.audioUrl;
             audioBox.style.display = "block";
           }
         } else {
@@ -408,7 +462,7 @@ GÉNÈRE UNE RÉPONSE DANS LA STRUCTURE SUIVANTE EXACTE :
       }
 
       button.disabled = false;
-      button.innerText = "✨ PRODUIRE LA CHANSON ET GENERER L'AUDIO";
+      button.innerText = "✨ PRODUIRE LA CHANSON ET GÉNÉRER L'AUDIO";
     }
 
     function copyResult() {
@@ -423,12 +477,12 @@ GÉNÈRE UNE RÉPONSE DANS LA STRUCTURE SUIVANTE EXACTE :
 });
 
 /* ============================================================
-   API DE GENERATION PROMPT + AUDIO HOOK
+   API DE GÉNÉRATION PROMPT + AUDIO HOOK
 ============================================================ */
 
 app.post("/generate", async (req, res) => {
   try {
-    const { prompt, modelName } = req.body;
+    const { prompt, modelName, generateAudio } = req.body;
 
     if (!prompt) {
       return res.status(400).json({ success: false, error: "Prompt manquant" });
@@ -436,11 +490,28 @@ app.post("/generate", async (req, res) => {
 
     const model = modelName || DEFAULT_MODEL;
     const response = await generateWithRetry(prompt, model);
+    const resultText = response.text;
+
+    let audioUrl = null;
+
+    if (generateAudio && process.env.SUNO_API_KEY) {
+      // Extraction automatique du prompt technique entre crochets
+      const tagsMatch = resultText.match(/\[(.*?)\]/);
+      const tags = tagsMatch ? tagsMatch[1] : "Gospel, Male lead, Piano";
+
+      // Extraction du titre
+      const titleMatch = resultText.match(/Titre proposé\s*:\s*(.*)/i);
+      const title = titleMatch ? titleMatch[1].trim() : "Chanson VichAndy";
+
+      // Appel de l'API Audio
+      audioUrl = await callSunoApi(tags, resultText, title);
+    }
 
     res.json({
       success: true,
       model: model,
-      result: response.text
+      result: resultText,
+      audioUrl: audioUrl
     });
   } catch (error) {
     console.error("ERREUR GEMINI :", error);
@@ -449,7 +520,7 @@ app.post("/generate", async (req, res) => {
 });
 
 /* ============================================================
-   ROUTE PRINCIPALE & DEMARRAGE
+   ROUTE PRINCIPALE & DÉMARRAGE
 ============================================================ */
 
 app.get("/", (req, res) => {
@@ -457,5 +528,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Backend Vichandy en ligne sur le port ${PORT}`);
+  console.log(`Backend VichAndy en ligne sur le port ${PORT}`);
 });
