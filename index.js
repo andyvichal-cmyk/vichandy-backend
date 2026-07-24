@@ -27,7 +27,55 @@ const ai = new GoogleGenAI({
 // Modèle Gemini utilisé par défaut
 const DEFAULT_MODEL = "gemini-3.5-flash";
 
-// Interface web de test
+// Fonction pour attendre avant une nouvelle tentative
+function wait(milliseconds) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, milliseconds);
+  });
+}
+
+// Fonction de génération avec plusieurs tentatives automatiques
+async function generateWithRetry(prompt, model, maxAttempts = 3) {
+  let lastError;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      const response = await ai.models.generateContent({
+        model: model,
+        contents: prompt
+      });
+
+      return response;
+
+    } catch (error) {
+      lastError = error;
+
+      console.error(
+        `Tentative ${attempt}/${maxAttempts} échouée :`,
+        error.message
+      );
+
+      const errorMessage = error.message || "";
+
+      const temporaryError =
+        errorMessage.includes("503") ||
+        errorMessage.includes("UNAVAILABLE") ||
+        errorMessage.includes("high demand") ||
+        errorMessage.includes("429") ||
+        errorMessage.includes("RESOURCE_EXHAUSTED");
+
+      if (!temporaryError || attempt === maxAttempts) {
+        throw error;
+      }
+
+      await wait(attempt * 5000);
+    }
+  }
+
+  throw lastError;
+}
+
+// Interface web VichAndy Studio IA
 app.get("/test", (req, res) => {
   res.send(`
     <!DOCTYPE html>
@@ -169,7 +217,8 @@ app.get("/test", (req, res) => {
             }
 
           } catch (error) {
-            result.innerText = "Erreur de connexion au serveur : " + error.message;
+            result.innerText =
+              "Erreur de connexion au serveur : " + error.message;
           }
 
           button.disabled = false;
@@ -195,10 +244,7 @@ app.post("/generate", async (req, res) => {
 
     const model = modelName || DEFAULT_MODEL;
 
-    const response = await ai.models.generateContent({
-      model: model,
-      contents: prompt
-    });
+    const response = await generateWithRetry(prompt, model);
 
     res.json({
       success: true,
@@ -219,10 +265,10 @@ app.post("/generate", async (req, res) => {
 // Endpoint de test de connexion à Gemini
 app.get("/list-models", async (req, res) => {
   try {
-    const response = await ai.models.generateContent({
-      model: DEFAULT_MODEL,
-      contents: "Réponds uniquement par : Connexion Gemini réussie"
-    });
+    const response = await generateWithRetry(
+      "Réponds uniquement par : Connexion Gemini réussie",
+      DEFAULT_MODEL
+    );
 
     res.json({
       success: true,
