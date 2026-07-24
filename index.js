@@ -80,8 +80,13 @@ app.get("/test", (req, res) => {
 <html lang="fr">
 
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>VichAndy Studio IA</title>
 
@@ -95,8 +100,16 @@ app.get("/test", (req, res) => {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
       background:
-        radial-gradient(circle at top left, #302b63, transparent 35%),
-        radial-gradient(circle at bottom right, #24243e, transparent 35%),
+        radial-gradient(
+          circle at top left,
+          #302b63,
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at bottom right,
+          #24243e,
+          transparent 35%
+        ),
         #09090f;
       color: white;
       min-height: 100vh;
@@ -130,8 +143,14 @@ app.get("/test", (req, res) => {
       align-items: center;
       justify-content: center;
       font-size: 28px;
-      background: linear-gradient(135deg, #ff8a00, #e52e71);
-      box-shadow: 0 10px 30px rgba(229, 46, 113, 0.35);
+      background: linear-gradient(
+        135deg,
+        #ff8a00,
+        #e52e71
+      );
+      box-shadow:
+        0 10px 30px
+        rgba(229, 46, 113, 0.35);
     }
 
     .brand h1 {
@@ -159,11 +178,20 @@ app.get("/test", (req, res) => {
     }
 
     .hero h2 {
-      font-size: clamp(30px, 5vw, 58px);
+      font-size: clamp(
+        30px,
+        5vw,
+        58px
+      );
       line-height: 1.1;
       margin: 0 auto 18px;
       max-width: 800px;
-      background: linear-gradient(90deg, #ffffff, #ffb86c, #ff6b9d);
+      background: linear-gradient(
+        90deg,
+        #ffffff,
+        #ffb86c,
+        #ff6b9d
+      );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -182,7 +210,9 @@ app.get("/test", (req, res) => {
       backdrop-filter: blur(20px);
       border-radius: 25px;
       padding: 28px;
-      box-shadow: 0 20px 70px rgba(0,0,0,0.3);
+      box-shadow:
+        0 20px 70px
+        rgba(0,0,0,0.3);
     }
 
     .section-title {
@@ -243,8 +273,14 @@ app.get("/test", (req, res) => {
       font-weight: bold;
       color: white;
       cursor: pointer;
-      background: linear-gradient(90deg, #ff8a00, #e52e71);
-      transition: transform 0.2s, opacity 0.2s;
+      background: linear-gradient(
+        90deg,
+        #ff8a00,
+        #e52e71
+      );
+      transition:
+        transform 0.2s,
+        opacity 0.2s;
     }
 
     .generate-button:hover {
@@ -357,6 +393,7 @@ app.get("/test", (req, res) => {
     }
 
   </style>
+
 </head>
 
 <body>
@@ -372,8 +409,15 @@ app.get("/test", (req, res) => {
         </div>
 
         <div>
-          <h1>VichAndy Studio</h1>
-          <p>Imagine. Create. Inspire.</p>
+
+          <h1>
+            VichAndy Studio
+          </h1>
+
+          <p>
+            Imagine. Create. Inspire.
+          </p>
+
         </div>
 
       </div>
@@ -419,16 +463,45 @@ app.get("/test", (req, res) => {
 
           <select id="style">
 
-            <option>Gospel</option>
-            <option>Afrobeat</option>
-            <option>Afropop</option>
-            <option>R&B</option>
-            <option>Rap</option>
-            <option>Hip-Hop</option>
-            <option>Pop</option>
-            <option>Reggae</option>
-            <option>Worship</option>
-            <option>Jazz</option>
+            <option>
+              Gospel
+            </option>
+
+            <option>
+              Afrobeat
+            </option>
+
+            <option>
+              Afropop
+            </option>
+
+            <option>
+              R&B
+            </option>
+
+            <option>
+              Rap
+            </option>
+
+            <option>
+              Hip-Hop
+            </option>
+
+            <option>
+              Pop
+            </option>
+
+            <option>
+              Reggae
+            </option>
+
+            <option>
+              Worship
+            </option>
+
+            <option>
+              Jazz
+            </option>
 
           </select>
 
@@ -442,10 +515,21 @@ app.get("/test", (req, res) => {
 
           <select id="language">
 
-            <option>Français</option>
-            <option>English</option>
-            <option>Español</option>
-            <option>Português</option>
+            <option>
+              Français
+            </option>
+
+            <option>
+              English
+            </option>
+
+            <option>
+              Español
+            </option>
+
+            <option>
+              Português
+            </option>
 
           </select>
 
@@ -459,13 +543,33 @@ app.get("/test", (req, res) => {
 
           <select id="mood">
 
-            <option>Puissante</option>
-            <option>Émotionnelle</option>
-            <option>Joyeuse</option>
-            <option>Inspirante</option>
-            <option>Romantique</option>
-            <option>Sombre</option>
-            <option>Énergique</option>
+            <option>
+              Puissante
+            </option>
+
+            <option>
+              Émotionnelle
+            </option>
+
+            <option>
+              Joyeuse
+            </option>
+
+            <option>
+              Inspirante
+            </option>
+
+            <option>
+              Romantique
+            </option>
+
+            <option>
+              Sombre
+            </option>
+
+            <option>
+              Énergique
+            </option>
 
           </select>
 
@@ -561,25 +665,36 @@ app.get("/test", (req, res) => {
     async function generateSong() {
 
       const idea =
-        document.getElementById("idea").value.trim();
+        document.getElementById("idea")
+          .value
+          .trim();
 
       const style =
-        document.getElementById("style").value;
+        document.getElementById("style")
+          .value;
 
       const language =
-        document.getElementById("language").value;
+        document.getElementById("language")
+          .value;
 
       const mood =
-        document.getElementById("mood").value;
+        document.getElementById("mood")
+          .value;
 
       const button =
-        document.getElementById("generateButton");
+        document.getElementById(
+          "generateButton"
+        );
 
       const resultContainer =
-        document.getElementById("resultContainer");
+        document.getElementById(
+          "resultContainer"
+        );
 
       const result =
-        document.getElementById("result");
+        document.getElementById(
+          "result"
+        );
 
       if (!idea) {
 
@@ -593,9 +708,11 @@ app.get("/test", (req, res) => {
 
       const prompt = `
 
-Tu es un auteur-compositeur professionnel et un directeur artistique musical.
+Tu es un auteur-compositeur professionnel
+et un directeur artistique musical.
 
-Crée une chanson originale complète à partir des informations suivantes :
+Crée une chanson originale complète
+à partir des informations suivantes :
 
 IDÉE DE L'UTILISATEUR :
 ${idea}
@@ -609,7 +726,9 @@ ${language}
 AMBIANCE :
 ${mood}
 
-La chanson doit être originale, cohérente, émotionnelle et adaptée au style choisi.
+La chanson doit être originale,
+cohérente, émotionnelle et adaptée
+au style choisi.
 
 Structure obligatoirement la chanson avec :
 
@@ -624,9 +743,14 @@ Structure obligatoirement la chanson avec :
 9. REFRAIN FINAL
 10. OUTRO
 
-Ajoute également des indications entre parenthèses pour décrire l'énergie musicale, les instruments et l'évolution de la chanson.
+Ajoute également des indications
+entre parenthèses pour décrire
+l'énergie musicale, les instruments
+et l'évolution de la chanson.
 
-Réponds uniquement avec la création musicale complète.
+Réponds uniquement avec
+la création musicale complète.
+
 `;
 
       button.disabled = true;
@@ -639,28 +763,32 @@ Réponds uniquement avec la création musicale complète.
 
       result.innerHTML = `
         <div class="loading">
-          🎼 VichAndy Studio imagine ta création...
+          🎼 VichAndy Studio imagine
+          ta création...
           <br><br>
-          ✨ Composition des paroles en cours...
+          ✨ Composition des paroles
+          en cours...
         </div>
       `;
 
       try {
 
         const response =
-          await fetch("/generate", {
+          await fetch(
+            "/generate",
+            {
+              method: "POST",
 
-            method: "POST",
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
 
-            headers: {
-              "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-              prompt: prompt
-            })
-
-          });
+              body: JSON.stringify({
+                prompt: prompt
+              })
+            }
+          );
 
         const data =
           await response.json();
@@ -673,7 +801,8 @@ Réponds uniquement avec la création musicale complète.
         } else {
 
           result.innerText =
-            "Erreur : " + data.error;
+            "Erreur : "
+            + data.error;
 
         }
 
@@ -695,9 +824,13 @@ Réponds uniquement avec la création musicale complète.
     function copyResult() {
 
       const text =
-        document.getElementById("result").innerText;
+        document.getElementById(
+          "result"
+        ).innerText;
 
-      navigator.clipboard.writeText(text);
+      navigator.clipboard.writeText(
+        text
+      );
 
       alert(
         "Création copiée avec succès !"
@@ -777,7 +910,7 @@ app.post("/generate", async (req, res) => {
 });
 
 /* ============================================================
-   TEST GEMINI
+   TEST DE CONNEXION GEMINI
 ============================================================ */
 
 app.get("/list-models", async (req, res) => {
