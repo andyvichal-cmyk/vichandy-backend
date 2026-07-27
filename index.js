@@ -31,7 +31,7 @@ function wait(milliseconds) {
 }
 
 /* ============================================================
-   OUTIL : GEMINI AVEC SYSTÈME DE RETRY
+   OUTIL : GEMINI AVEC RETRY
 ============================================================ */
 
 async function generateWithRetry(prompt, model, maxAttempts = 3) {
@@ -82,10 +82,7 @@ async function callSunoApi(tags, lyrics, title) {
   const apiKey = process.env.SUNO_API_KEY;
 
   if (!apiKey) {
-    console.warn(
-      "SUNO_API_KEY manquant. Génération audio impossible."
-    );
-
+    console.warn("SUNO_API_KEY manquant.");
     return null;
   }
 
@@ -1106,10 +1103,6 @@ Direction Artistique & Production IA
 
 <script>
 
-/* ============================================================
-   VARIABLES GLOBALES
-============================================================ */
-
 let currentSongText = "";
 
 let currentTitle = "Chanson VichAndy";
@@ -1329,7 +1322,7 @@ Orchestral Strings, 70 BPM]
 
       const titleMatch =
       data.result.match(
-        /Titre proposé\\s*:\\s*(.*)/i
+        /Titre proposé\s*:\s*(.*)/i
       );
 
       if (titleMatch) {
@@ -1644,8 +1637,7 @@ app.post(
       await callSunoApi(
         tags,
         songText,
-        title ||
-        "Chanson VichAndy"
+        title
       );
 
       if (!audioUrl) {
@@ -1665,8 +1657,7 @@ app.post(
 
         success: true,
 
-        audioUrl:
-        audioUrl
+        audioUrl: audioUrl
 
       });
 
@@ -1705,7 +1696,6 @@ app.get(
     );
 
   }
-
 );
 
 /* ============================================================
@@ -1721,5 +1711,4 @@ app.listen(
     );
 
   }
-
 );
